@@ -4,7 +4,7 @@ defineProps<{
     inputRows?: number,
     inputName: string,
     placeholder?: string,
-    label?: Text
+    label?: string
 }>()
 </script>
 
