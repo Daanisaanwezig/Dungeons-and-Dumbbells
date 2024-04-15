@@ -1,5 +1,17 @@
 <script setup lang="ts">
 function submitForm() {
+    let textInputs = ['playerName', 'background', 'appearance', 'personalityTraits', 'flaws', 'favouriteExercices']
+
+    let formData: {[key: string]: string} = {}
+    textInputs.forEach( inputId => {
+        const inputElem = <HTMLInputElement>document.getElementById( inputId )
+        if (! inputElem ) return console.warn( `Input with id ${inputId} not found...` );
+
+        const inputVal = inputElem.value
+        formData[inputId] = inputVal
+    })
+
+    localStorage.setItem( 'character', JSON.stringify( formData ) )    
 }
 </script>
 
@@ -12,8 +24,8 @@ function submitForm() {
                     inputName="background"
                     label="Background" />
         <TextInput  inputType="textarea"
-                    inputRows="10"
-                    inputName="Appearance"
+                    :inputRows="10"
+                    inputName="appearance"
                     label="Appearance" />
         <TextInput  inputType="textarea"
                     inputName="personalityTraits"
