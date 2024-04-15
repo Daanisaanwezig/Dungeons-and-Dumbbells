@@ -1,7 +1,6 @@
 <script setup lang="ts">
 function submitForm() {
 }
-
 </script>
 
 <template>
