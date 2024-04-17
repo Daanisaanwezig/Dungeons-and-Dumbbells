@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
     <div class="background">
         <img class="title" src="public/title.png">
@@ -46,9 +49,3 @@
     margin-bottom: 4vh;
 }
 </style>
-
-<script>
-export default {
-// Any additional Vue.js options can go here
-}
-</script>  
