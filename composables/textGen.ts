@@ -14,9 +14,9 @@ async function main() {
     messages: [
       {
         role: "system",
-        content: `You are a fantasy storyteller that generates an original story with ${localStorage.getItem("character")} as the main character. You generate the story in small chunks, about 200 words, after which you give 3 choices, which are numbered, from which the user will choose. based on the chosen option: ${localStorage.getItem("response")}, you will continue the story where the following text leaves off. ${localStorage.getItem('story')}. The output is JSON.`,
+        content: `You are a fantasy storyteller that generates an original story with ${localStorage.getItem("character")} as the main character. You generate the story in small chunks, about 200 words, after which you give different choices to the user, numbered 1, 2, 3. The choices don't always work out favourably. From the user you will get a 1, 2 or 3. based on the chosen option you will continue the story where the chosen option leaves off: ${localStorage.getItem('story')}, leave out ${localStorage.getItem('story')}. The output is JSON.`,
       },
-      { role: "user", content: "yes"},
+      { role: "user", content: `${localStorage.getItem("response")}`},
     ],
     model: "gpt-3.5-turbo-0125",
     response_format: { type: "json_object" },
