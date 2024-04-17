@@ -4,22 +4,20 @@
         <div class="select-container">
             <ul class="option-list">
                 <li class="option">continue</li>
-                <li class="option">new campaign</li>
+                <li class="option"><NuxtLink to="/character-creation">new campaign</NuxtLink></li>
                 <li class="option">settings</li>
             </ul>
         </div>
     </div>
 </template>
 
-<style>
-body{
-    overflow: hidden;
-}
+<style scoped>
 .background{
     background-image: url('public/home-background.jpeg');
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     background-position-x: right;
+    overflow: hidden;
 }
 .title{
     width: 85vw;
