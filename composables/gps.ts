@@ -1,22 +1,29 @@
 export function GPS() {
     const hasGPS: Ref<boolean> = ref(true)
+
     const location: Ref<GeolocationPosition | null> = ref(null)
+    
+    const hasActiveGoal: Ref<boolean> = ref(true)
+    const goal: Ref<number | null> = ref(null)
     const distanceTraveled: Ref<number> = ref(0)
     const goalAchieved: Ref<boolean> = ref(false)
-    const difference: Ref<number> = ref(0) // Expose this value for debug purposes
 
+    const difference: Ref<number> = ref(0) // Expose this value for debug purposes
+    
     const watchLocation = ( targetDistance: number ) => {
         if ( process.client ) {
             if (! navigator.geolocation ) {
                 return hasGPS.value = false
             }
+            goal.value = targetDistance
+
+            hasActiveGoal.value = true
     
             const options = {
                 enableHighAccuracy: true, // Enable high accuracy
-                timeout: 1000, // We don't want to wait for longer than a second for a response
+                timeout: 10000, // We don't want to wait for longer than a second for a response
                 maximumAge: 2500 // Maximum age of retrieved data
             }
-    
             const watchPosition = navigator.geolocation.watchPosition( ( postion ) => {
                 const difference = calculateDifference( postion )
                 distanceTraveled.value += difference
@@ -24,11 +31,13 @@ export function GPS() {
                 if ( distanceTraveled.value > targetDistance ) {
                     navigator.geolocation.clearWatch( watchPosition )
                     goalAchieved.value = true
+                    hasActiveGoal.value = false
                     return
                 }
             }, ( error ) => { // Add proper error handling here
                 console.warn( error )
                 navigator.geolocation.clearWatch( watchPosition )
+                hasActiveGoal.value = false
             }, options )
         }
     }
@@ -64,6 +73,7 @@ export function GPS() {
         location.value = null
         distanceTraveled.value = 0
         goalAchieved.value = false
+        hasActiveGoal.value = false
     }
 
     return {
@@ -72,6 +82,9 @@ export function GPS() {
 
         hasGPS,
         location,
-        distanceTraveled
+        distanceTraveled,
+        goal,
+        hasActiveGoal,
+        goalAchieved
     }
 }

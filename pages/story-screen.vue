@@ -1,3 +1,40 @@
+<script scoped setup lang="ts">
+    import { ref } from 'vue'
+
+    import textGen from "~/composables/textGen"
+    import textToSpeech from "~/composables/textToSpeech"
+    import { GPS } from "~/composables/gps"
+
+    const gps = GPS()
+
+    const story = ref()
+
+    let picked = ref('')
+
+    function setText() {
+        if ( process.client ) {
+            story.value = localStorage.getItem('story')
+            //textToSpeech(story.value)
+            picked = ref('');
+        }
+    }
+    setTimeout(setText, 6000)
+
+    function Response(){
+        console.log( picked.value );
+        if ( process.client ) {
+            localStorage.setItem('response', picked.value)
+    
+            gps.resetGPSGoal()
+            gps.watchLocation( 20 ) // Sets goal of 20 meters to continue
+            watch(gps.goalAchieved, (newVal: boolean, oldVal: boolean) => {
+                textGen()
+                setTimeout(setText, 6000)
+            })
+        }
+    }
+</script>
+
 <template>
     <div class="background flex-container">
         <div class="story">{{ story }}</div>
@@ -18,6 +55,9 @@
                     <label for="two">Three</label>
                 </div>
             </div>
+        </div>
+        <div class="progress-bar" v-if="gps.hasActiveGoal.value">
+            <p>Walk for {{ gps.goal }} meters to continue...<br/>You've walked {{ gps.distanceTraveled }}</p>
         </div>
 
     </div>
@@ -51,29 +91,12 @@
     input:focus{
         outline: none;
     }
+
+    .progress-bar__bar {
+        width: 100%;
+        background-color: #ccc;
+    }
+    .progress-bar__bar__inner {
+        background-color: rgb(5, 104, 5);
+    }
 </style>
-
-<script scoped setup lang="ts">
-    import textGen from "~/composables/textGen";
-    import textToSpeech from "~/composables/textToSpeech";
-    import { ref } from 'vue'
-
-    const story = ref()
-
-    let picked = ref('')
-
-    function setText() {
-        story.value = localStorage.getItem('story')
-        //textToSpeech(story.value)
-        picked = ref('');
-    }
-    setTimeout(setText, 6000)
-
-    function Response(){
-        localStorage.setItem('response', picked.value)
-        textGen()
-        setTimeout(setText, 6000)
-    }
-    
-    
-</script>
