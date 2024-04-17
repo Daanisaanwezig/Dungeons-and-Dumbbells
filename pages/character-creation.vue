@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import textGen from "~/composables/textGen";
 function submitForm() {
     let textInputs = ['playerName', 'background', 'appearance', 'personalityTraits', 'flaws', 'favouriteExercices']
 
@@ -11,7 +12,8 @@ function submitForm() {
         formData[inputId] = inputVal
     })
 
-    localStorage.setItem( 'character', JSON.stringify( formData ) )    
+    localStorage.setItem( 'character', JSON.stringify( formData ) )   
+    textGen()
 }
 </script>
 
@@ -37,7 +39,7 @@ function submitForm() {
                     inputName="favouriteExercices"
                     label="Favourite exercises" />
     
-        <Button @button-click="submitForm()">Submit</Button>
+        <Button @button-click="submitForm()"><NuxtLink to="/story-screen">Submit</NuxtLink></Button>
     </div>
 </template>
 
