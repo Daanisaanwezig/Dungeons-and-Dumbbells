@@ -14,7 +14,7 @@
     function setText() {
         if ( process.client ) {
             story.value = localStorage.getItem('story')
-            //textToSpeech(story.value)
+            textToSpeech(story.value)
             picked = ref('');
         }
     }
