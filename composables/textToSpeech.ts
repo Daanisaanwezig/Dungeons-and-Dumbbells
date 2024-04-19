@@ -21,29 +21,35 @@ export default function textToSpeech( text: string ) {
     })
     
     apiStatus = APIStatus.loading
-    
-    fetch( `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
-        method: 'POST',
-        headers: headers,
-        body: body
-    }).then(response => {
-        if (response.ok) {
-            apiStatus = APIStatus.generated
-            return response.blob()
-        } else {
-            throw new Error( 'Error: ' + response.statusText )
-        }
-    }).then(blob => {
-        const url = window.URL.createObjectURL( blob )
-        const audio = new Audio( url )
-        audio.play()
-        audio.onended = () => {
+
+    try {
+        fetch( `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
+            method: 'POST',
+            headers: headers,
+            body: body
+        }).then(response => {
+            if (response.ok) {
+                apiStatus = APIStatus.generated
+                return response.blob()
+            } else {
+                throw new Error( 'Error: ' + response.statusText )
+            }
+        }).then(blob => {
+            const url = window.URL.createObjectURL( blob )
+            const audio = new Audio( url )
+            audio.play()
+            audio.onended = () => {
+                apiStatus = APIStatus.failed
+            }
+        }).catch(error => {
+            console.error( 'Error:', error )
             apiStatus = APIStatus.failed
-        }
-    }).catch(error => {
-        console.error( 'Error:', error )
-        apiStatus = APIStatus.failed
-    })
+        })
+    } catch (error) {
+        console.warn( error )
+        
+    }
+    
 }
 
 // Sample text:
