@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    localStorage.clear()
 </script>
 
 <template>
@@ -40,7 +41,7 @@
 }
 .option-list{
     list-style: none;
-    font-size: clamp(1rem, 7vw, 2rem);
+    font-size: clamp(0.6rem, 7vw, 2rem);
     margin-right: 35vw;
     transform: rotate(-2.5deg);
     filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));

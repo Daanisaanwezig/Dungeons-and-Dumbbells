@@ -59,7 +59,6 @@
         <div class="progress-bar" v-if="gps.hasActiveGoal.value">
             <p>Walk for {{ gps.goal }} meters to continue...<br/>You've walked {{ gps.distanceTraveled }}</p>
         </div>
-
     </div>
 </template>
 
@@ -73,7 +72,7 @@
     }
     .story{
         /* display: none; */
-        margin: 10vw;
+        padding: 10vw;
         white-space: pre-wrap;
     }
     .flex-container{
@@ -91,7 +90,9 @@
     input:focus{
         outline: none;
     }
-
+    .progress-bar{
+        padding-bottom: 8vh;
+    }
     .progress-bar__bar {
         width: 100%;
         background-color: #ccc;
