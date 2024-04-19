@@ -2,7 +2,7 @@ import APIStatus from "~/types/ElevenLabs"
 
 export default function textToSpeech( text: string ) {
     const voiceId = 'N2lVS1w4EtoT3dr4eOWO'
-    const apiKey = '0db1939c95edde4ecf1d56c8062024b3' // API key on free account
+    const apiKey = '14af713303442c8bc866db62289c265e' // API key on free account
     
     let apiStatus
     
